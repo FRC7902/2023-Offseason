@@ -1,14 +1,14 @@
 1. Your Name
-Amrra 
+
 2. School + Grade
-Unionville High School, Gr. 11 
+
 3. Your hobbies
-Painting
+
 4. Favourite song or instrument
-Trumpet
+
 5. Plans for the rest of summer or what you did in July/August already
-Going to New York
+
 6. What you're looking forward to in the next year
-I am looking forward to competition season.
+
 7. Why you wanted to join the FRC 7902 team
-I enjoy robotics and want to learn how to program.
+
