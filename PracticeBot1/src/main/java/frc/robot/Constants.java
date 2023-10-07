@@ -17,11 +17,18 @@ public final class Constants {
   public static class IntakeConstants{
     public static final int IntakeCANid = 8;
     public static final double hold = 0.05;
+    public static final double shootSpeed = 0.5;
+    public static final double suckSpeed = -0.5;
+
   }
 
 
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
+  }
+
+  public static class IOConstants{
+    public static final int kLB = 5, kRB = 6;
   }
   
 }
