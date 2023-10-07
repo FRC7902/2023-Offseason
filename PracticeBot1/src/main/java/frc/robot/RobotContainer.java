@@ -4,14 +4,20 @@
 
 package frc.robot;
 
+import frc.robot.Constants.IOConstants;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.AutoDrive1;
+import frc.robot.commands.AutoIntake;
 import frc.robot.commands.Autos;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.Shoot;
+import frc.robot.commands.Suck;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -31,12 +37,12 @@ public class RobotContainer {
   private static final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
   private static final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
 
+  private final AutoIntake m_AutoIntake = new AutoIntake(m_intakeSubsystem);
   private final AutoDrive1 m_autoDrive1 = new AutoDrive1(m_driveSubsystem);
   SendableChooser<Command> m_chooser = new SendableChooser<>();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
-  private final CommandXboxController m_driverController =
-      new CommandXboxController(OperatorConstants.kDriverControllerPort);
+  private final XboxController m_driverController = new XboxController(OperatorConstants.kDriverControllerPort);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -71,11 +77,9 @@ public class RobotContainer {
 
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
-    m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
 
-    //new JoystickButton()
-
-
+    new JoystickButton(m_driverController, IOConstants.kLB).whileTrue(new Shoot(m_intakeSubsystem));
+    new JoystickButton(m_driverController, IOConstants.kRB).whileTrue(new Suck(m_intakeSubsystem));
   }
 
   /**
