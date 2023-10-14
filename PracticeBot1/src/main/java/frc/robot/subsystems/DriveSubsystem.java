@@ -13,7 +13,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 public class DriveSubsystem extends SubsystemBase {
 
-  //Declare motor controllers
+  // Declare motor controllers
   private final CANSparkMax m_leftleader = new CANSparkMax(13, MotorType.kBrushless);
   private final CANSparkMax m_leftfollower = new CANSparkMax(14, MotorType.kBrushless);
   private final CANSparkMax m_rightleader = new CANSparkMax(15, MotorType.kBrushless);
@@ -44,7 +44,8 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   /**
-   * An example method querying a boolean state of the subsystem (for example, a digital sensor).
+   * An example method querying a boolean state of the subsystem (for example, a
+   * digital sensor).
    *
    * @return value of some boolean subsystem state, such as a digital sensor.
    */
@@ -53,24 +54,25 @@ public class DriveSubsystem extends SubsystemBase {
     return false;
   }
 
-  public void driveArcade(double xForward, double zRotation){
+  public void driveArcade(double xForward, double zRotation) {
     drive.arcadeDrive(xForward, zRotation);
   }
 
-  public void driveRaw(double power){
+  public void driveRaw(double power) {
     left.set(power);
     right.set(power);
   }
 
-  public void turnLeft(double amount){
+  public void turnLeft(double amount) {
     left.set(-amount);
     right.set(amount);
   }
 
-  public void turnRight(double amount){
+  public void turnRight(double amount) {
     left.set(amount);
     right.set(-amount);
   }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
