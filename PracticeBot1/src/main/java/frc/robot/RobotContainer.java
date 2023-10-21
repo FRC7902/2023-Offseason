@@ -6,9 +6,10 @@ package frc.robot;
 
 import frc.robot.Constants.IOConstants;
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.AutoDrive1;
 import frc.robot.commands.AutoIntake;
 import frc.robot.commands.Autos;
+import frc.robot.commands.DriveAndIntakeParallel;
+import frc.robot.commands.DriveAndIntakeSequential;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.Shoot;
 import frc.robot.commands.Suck;
@@ -34,9 +35,10 @@ public class RobotContainer {
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private static final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
   private static final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
+  
+  private static final DriveAndIntakeSequential m_drive_intake_sequential = new DriveAndIntakeSequential(m_intakeSubsystem, m_driveSubsystem);
 
   private final AutoIntake m_AutoIntake = new AutoIntake(m_intakeSubsystem);
-  private final AutoDrive1 m_autoDrive1 = new AutoDrive1(m_driveSubsystem);
   SendableChooser<Command> m_chooser = new SendableChooser<>();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
@@ -55,8 +57,8 @@ public class RobotContainer {
               m_driveSubsystem
             ));      
 
-
-    m_chooser.setDefaultOption("AUTO DRIVE 1", m_autoDrive1);
+    m_chooser.setDefaultOption("drive and intake", m_drive_intake_sequential);
+    m_chooser.addOption("auto intake", m_AutoIntake);
   }
 
   /**
@@ -78,6 +80,7 @@ public class RobotContainer {
 
     new JoystickButton(m_driverController, IOConstants.kLB).whileTrue(new Shoot(m_intakeSubsystem));
     new JoystickButton(m_driverController, IOConstants.kRB).whileTrue(new Suck(m_intakeSubsystem));
+    new JoystickButton(m_driverController, IOConstants.kA).onTrue(new DriveAndIntakeParallel(m_intakeSubsystem, m_driveSubsystem));
   }
 
   /**
