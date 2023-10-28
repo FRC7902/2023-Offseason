@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class ExampleSubsystem extends SubsystemBase {
+public class DriveSubsystem extends SubsystemBase {
 
   private final CANSparkMax m_motor1 = new CANSparkMax(13, MotorType.kBrushless);
   private final CANSparkMax m_motor2 = new CANSparkMax(14, MotorType.kBrushless);
@@ -21,7 +21,7 @@ public class ExampleSubsystem extends SubsystemBase {
   private final MotorControllerGroup left = new MotorControllerGroup(m_motor1, m_motor2);
   private final MotorControllerGroup right = new MotorControllerGroup(m_motor3, m_motor4);
   /** Creates a new ExampleSubsystem. */
-  public ExampleSubsystem() {
+  public DriveSubsystem() {
     //left.setInverted(true);
     m_motor1.setInverted(true);
     m_motor2.setInverted(true);

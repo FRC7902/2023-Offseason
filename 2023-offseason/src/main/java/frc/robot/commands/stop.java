@@ -4,40 +4,28 @@
 
 package frc.robot.commands;
 
-import frc.robot.subsystems.ExampleSubsystem;
-
-import com.revrobotics.CANSparkMax;
-
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.IntakeSubsystem;
 
-/** An example command that uses an example subsystem. */
-public class stop extends CommandBase {
-  @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private ExampleSubsystem m_subsystem;
+public class Stop extends CommandBase {
+  private final IntakeSubsystem m_intake;
 
-  /**
-   * Creates a new ExampleCommand.
-   *
-   * @param subsystem The subsystem used by this command.
-   */
-  public stop(ExampleSubsystem subsystem) {
-    m_subsystem = subsystem;
+  /** Creates a new Stop. */
+  public Stop(IntakeSubsystem intake) {
+    m_intake = intake;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(subsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-
-
+    m_intake.stopMotor();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_subsystem.stopMotor();
-
+    m_intake.stopMotor();
   }
 
   // Called once the command ends or is interrupted.
