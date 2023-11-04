@@ -47,6 +47,7 @@ private final DifferentialDrive drive = new DifferentialDrive(left, right);
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
+    
   }
 
   /**

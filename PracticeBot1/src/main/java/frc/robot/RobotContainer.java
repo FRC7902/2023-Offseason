@@ -53,7 +53,7 @@ public class RobotContainer {
         new RunCommand(
             () -> m_driveSubsystem.driveArcade(
               m_driverController.getRawAxis(1),//kLY
-              m_driverController.getRawAxis(4)),//kRX
+              m_driverController.getRawAxis(0)),//kRX
               m_driveSubsystem
             ));      
 

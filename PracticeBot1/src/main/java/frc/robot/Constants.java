@@ -22,6 +22,10 @@ public final class Constants {
 
   }
 
+  public static class DriveConstants{
+    public static final int[] kLeftEncoderPorts = {0, 1, 2};
+    public static final int[] kRightEncoderPorts = {3, 4, 5};
+  }
 
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
