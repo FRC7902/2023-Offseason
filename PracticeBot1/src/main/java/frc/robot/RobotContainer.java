@@ -10,6 +10,7 @@ import frc.robot.commands.AutoIntake;
 import frc.robot.commands.Autos;
 import frc.robot.commands.DriveAndIntakeParallel;
 import frc.robot.commands.DriveAndIntakeSequential;
+import frc.robot.commands.pathPlannerCommand;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.Shoot;
 import frc.robot.commands.Suck;
@@ -24,10 +25,18 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
+import com.pathplanner.lib.commands.PathPlannerAuto;
+import com.pathplanner.lib.path.PathPlannerPath;
+
 /**
- * This class is where the bulk of the robot should be declared. Since Command-based is a
- * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
- * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
+ * This class is where the bulk of the robot should be declared. Since
+ * Command-based is a
+ * "declarative" paradigm, very little robot logic should actually be handled in
+ * the {@link Robot}
+ * periodic methods (other than the scheduler calls). Instead, the structure of
+ * the robot (including
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
@@ -35,39 +44,50 @@ public class RobotContainer {
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private static final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
   private static final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
-  
-  private static final DriveAndIntakeSequential m_drive_intake_sequential = new DriveAndIntakeSequential(m_intakeSubsystem, m_driveSubsystem);
+
+  private static final DriveAndIntakeSequential m_drive_intake_sequential = new DriveAndIntakeSequential(
+      m_intakeSubsystem, m_driveSubsystem);
 
   private final AutoIntake m_AutoIntake = new AutoIntake(m_intakeSubsystem);
+  private final pathPlannerCommand m_pathPlannerCommand = new pathPlannerCommand();
   SendableChooser<Command> m_chooser = new SendableChooser<>();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final XboxController m_driverController = new XboxController(OperatorConstants.kDriverControllerPort);
 
-  /** The container for the robot. Contains subsystems, OI devices, and commands. */
+  /**
+   * The container for the robot. Contains subsystems, OI devices, and commands.
+   */
   public RobotContainer() {
+
+    NamedCommands.registerCommand("Test", m_AutoIntake);
+
     // Configure the trigger bindings
     configureBindings();
 
     m_driveSubsystem.setDefaultCommand(
         new RunCommand(
             () -> m_driveSubsystem.driveArcade(
-              m_driverController.getRawAxis(1),//kLY
-              m_driverController.getRawAxis(4)),//kRX
-              m_driveSubsystem
-            ));      
+                m_driverController.getRawAxis(1), // kLY
+                m_driverController.getRawAxis(4)), // kRX
+            m_driveSubsystem));
 
     m_chooser.setDefaultOption("drive and intake", m_drive_intake_sequential);
     m_chooser.addOption("auto intake", m_AutoIntake);
   }
 
   /**
-   * Use this method to define your trigger->command mappings. Triggers can be created via the
-   * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with an arbitrary
+   * Use this method to define your trigger->command mappings. Triggers can be
+   * created via the
+   * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with
+   * an arbitrary
    * predicate, or via the named factories in {@link
-   * edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses for {@link
-   * CommandXboxController Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller
-   * PS4} controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
+   * edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses for
+   * {@link
+   * CommandXboxController
+   * Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller
+   * PS4} controllers or
+   * {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
    * joysticks}.
    */
   private void configureBindings() {
@@ -75,12 +95,14 @@ public class RobotContainer {
     new Trigger(m_exampleSubsystem::exampleCondition)
         .onTrue(new ExampleCommand(m_exampleSubsystem));
 
-    // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
+    // Schedule `exampleMethodCommand` when the Xbox controller's B button is
+    // pressed,
     // cancelling on release.
 
     new JoystickButton(m_driverController, IOConstants.kLB).whileTrue(new Shoot(m_intakeSubsystem));
     new JoystickButton(m_driverController, IOConstants.kRB).whileTrue(new Suck(m_intakeSubsystem));
-    new JoystickButton(m_driverController, IOConstants.kA).onTrue(new DriveAndIntakeParallel(m_intakeSubsystem, m_driveSubsystem));
+    new JoystickButton(m_driverController, IOConstants.kA)
+        .onTrue(new DriveAndIntakeParallel(m_intakeSubsystem, m_driveSubsystem));
   }
 
   /**
@@ -89,7 +111,14 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
+
+    PathPlannerPath path = PathPlannerPath.fromPathFile("NewPath");
+
+    // Create a path following command using AutoBuilder. This will also trigger
+    // event markers.
+    return AutoBuilder.followPathWithEvents(path);
+
     // An example command will be run in autonomous
-    return Autos.exampleAuto(m_exampleSubsystem);
+    //return m_chooser.getSelected();
   }
 }

@@ -22,6 +22,11 @@ public final class Constants {
 
   }
 
+  public static class DriveConstants{
+    public static final int motorEncoderTicksPerRev = 42;
+    public static final double distanceInMetersPerMotorTick = 0.0114;
+  }
+
 
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;

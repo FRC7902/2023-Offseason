@@ -85,7 +85,9 @@ private final DifferentialDrive drive = new DifferentialDrive(left, right);
 
   /** This function is called periodically during autonomous. */
   @Override
-  public void autonomousPeriodic() {}
+  public void autonomousPeriodic() {
+    CommandScheduler.getInstance().run();
+  }
 
   @Override
   public void teleopInit() {
@@ -96,7 +98,6 @@ private final DifferentialDrive drive = new DifferentialDrive(left, right);
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
-    drive.arcadeDrive(-joystick.getX()*0.5, -joystick.getY());
   }
 
   /** This function is called periodically during operator control. */
