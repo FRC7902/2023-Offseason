@@ -72,7 +72,8 @@ public class RobotContainer {
                 m_driverController.getRawAxis(4)), // kRX
             m_driveSubsystem));
 
-    m_chooser.setDefaultOption("pathplanner", AutoBuilder.followPathWithEvents(PathPlannerPath.fromPathFile("NewPath")));
+    m_chooser.setDefaultOption("Drive and intake", m_drive_intake_sequential);
+    m_chooser.setDefaultOption("pathplanner", m_pathPlannerCommand.getAutonomousCommand());
     m_chooser.addOption("auto intake", m_AutoIntake);
   }
 
