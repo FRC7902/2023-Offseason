@@ -8,11 +8,12 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.IntakeSubsystem;
 
 public class stopIntake extends CommandBase {
-  private final IntakeSubsystem m_intake;
 
+  private final IntakeSubsystem m_intake; 
+ 
   /** Creates a new stopIntake. */
   public stopIntake(IntakeSubsystem intake) {
-    m_intake = intake;
+    m_intake = intake; 
     // Use addRequirements() here to declare subsystem dependencies.
   }
 

@@ -8,17 +8,14 @@ import frc.robot.Constants.IntakeConstants;
 import edu.wpi.first.wpilibj.motorcontrol.PWMVictorSPX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-
 public class IntakeSubsystem extends SubsystemBase {
-
-  private PWMVictorSPX m_motor = new PWMVictorSPX(IntakeConstants.IntakeCANid);
   
-  /** Creates a new IntakeSubsystem. */
-  public IntakeSubsystem() {
-    
-  }
+  private final PWMVictorSPX m_motor = new PWMVictorSPX(IntakeConstants.IntakeCANid);
 
-  public void setPower(double power){
+  /** Creates a new IntakeSubsystem. */
+  public IntakeSubsystem() {}
+
+  public void setPower(double power) {
     m_motor.set(power);
   }
 

@@ -10,12 +10,11 @@ import frc.robot.subsystems.IntakeSubsystem;
 
 public class Shoot extends CommandBase {
 
-  private final IntakeSubsystem m_intake;
+  private final IntakeSubsystem m_intake; 
 
   /** Creates a new Shoot. */
   public Shoot(IntakeSubsystem intake) {
     m_intake = intake;
-
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -28,7 +27,7 @@ public class Shoot extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_intake.setPower(IntakeConstants.shootSpeed);
+    m_intake.setPower(IntakeConstants.shootPower);
   }
 
   // Called once the command ends or is interrupted.

@@ -71,6 +71,12 @@ public class DriveSubsystem extends SubsystemBase {
     left.set(amount);
     right.set(-amount);
   }
+
+  public void stopMotor(){
+    left.set(0);
+    right.set(0);
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
