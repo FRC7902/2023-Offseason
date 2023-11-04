@@ -5,6 +5,8 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -38,8 +40,8 @@ public class DriveSubsystem extends SubsystemBase {
   private final MotorControllerGroup right = new MotorControllerGroup(m_rightleader, m_rightfollower);
   private final DifferentialDrive drive = new DifferentialDrive(left, right);
 
-  private final Encoder m_leftEncoder = new Encoder(0, 1);
-  private final Encoder m_rightEncoder = new Encoder(2, 3);
+  private final Encoder m_leftEncoder = new Encoder(Constants.DriveConstants.kLeftEncoderPorts[0], Constants.DriveConstants.kLeftEncoderPorts[1]);
+  private final Encoder m_rightEncoder = new Encoder(Constants.DriveConstants.kRightEncoderPorts[0], Constants.DriveConstants.kRightEncoderPorts[1]);
   
   //Gyro
   private final AnalogGyro m_gyro = new AnalogGyro(1);
@@ -72,7 +74,8 @@ public class DriveSubsystem extends SubsystemBase {
     m_driveTrainSim = DifferentialDrivetrainSim.createKitbotSim(
       KitbotMotor.kDualCIMPerSide, 
       KitbotGearing.k10p71, 
-      KitbotWheelSize.kSixInch, null
+      KitbotWheelSize.kSixInch, 
+      null
     );
 
     m_fieldSim = new Field2d();
@@ -129,6 +132,7 @@ public class DriveSubsystem extends SubsystemBase {
     left.set(amount);
     right.set(-amount);
   }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
