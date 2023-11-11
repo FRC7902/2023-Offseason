@@ -25,7 +25,7 @@ import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim;
 import edu.wpi.first.wpilibj.simulation.EncoderSim;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 
 import frc.robot.util.SparkMaxEncoderWrapper;
@@ -59,6 +59,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   Encoder m_leftEncoderDummy = new Encoder(0, 1);
   Encoder m_rightEncoderDummy = new Encoder(2, 3);
+  
 
   EncoderSim m_leftEncoderSim = new EncoderSim(m_leftEncoderDummy);
   EncoderSim m_rightEncoderSim = new EncoderSim(m_rightEncoderDummy);
@@ -81,16 +82,20 @@ public class DriveSubsystem extends SubsystemBase {
     left.setInverted(true);
     right.setInverted(false);
 
+
     m_leftEncoder.setPositionConversionFactor(Constants.DriveConstants.distanceInMetersPerMotorTick);
     m_rightEncoder.setPositionConversionFactor(Constants.DriveConstants.distanceInMetersPerMotorTick);
+    m_leftEncoderDummy.setReverseDirection(true);
 
     // Dummy encoders driving (linear) distance per encoder tick
     m_leftEncoderDummy.setDistancePerPulse(2 * Math.PI * Units.inchesToMeters(3) / 42);
     m_leftEncoderDummy.setDistancePerPulse(2 * Math.PI * Units.inchesToMeters(3) / 42);
 
     if (Robot.isSimulation()) {
-      m_odometry = new DifferentialDriveOdometry(m_gyro.getRotation2d(),
+      m_odometry = new DifferentialDriveOdometry(m_gyro.getRotation2d().times(-1),
           m_leftEncoderDummy.getDistance(), m_rightEncoderDummy.getDistance());
+          resetPose(getPose());
+
     } else {
       m_odometry = new DifferentialDriveOdometry(m_gyro.getRotation2d(),
           m_leftEncoder.getPosition(), m_rightEncoder.getPosition());
@@ -178,6 +183,7 @@ public class DriveSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
 
     m_odometry.update(m_gyro.getRotation2d(), m_leftEncoderDummy.getDistance(), m_rightEncoderDummy.getDistance());
+  
     m_field.setRobotPose(m_odometry.getPoseMeters());
   }
 
@@ -189,11 +195,11 @@ public class DriveSubsystem extends SubsystemBase {
         m_rightleader.get() * -12);
 
     // Update all of our sensors.
-    m_leftEncoderSim.setDistance(m_driveSim.getLeftPositionMeters());
-    m_leftEncoderSim.setRate(m_driveSim.getLeftVelocityMetersPerSecond());
-    m_rightEncoderSim.setDistance(m_driveSim.getRightPositionMeters());
-    m_rightEncoderSim.setRate(m_driveSim.getRightVelocityMetersPerSecond());
-    m_gyroSim.setAngle(-m_driveSim.getHeading().getDegrees());
+    m_leftEncoderSim.setDistance(-m_driveSim.getLeftPositionMeters());
+    m_leftEncoderSim.setRate(-m_driveSim.getLeftVelocityMetersPerSecond());
+    m_rightEncoderSim.setDistance(-m_driveSim.getRightPositionMeters());
+    m_rightEncoderSim.setRate(-m_driveSim.getRightVelocityMetersPerSecond());
+    m_gyroSim.setAngle(m_driveSim.getHeading().getDegrees());
 
     m_driveSim.update(0.02);
 

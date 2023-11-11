@@ -9,9 +9,9 @@ import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.path.PathPlannerPath;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 
-public class pathPlannerCommand extends CommandBase {
+public class pathPlannerCommand extends Command {
   /** Creates a new pathPlannerCommand. */
   public pathPlannerCommand() {
     // Use addRequirements() here to declare subsystem dependencies.
