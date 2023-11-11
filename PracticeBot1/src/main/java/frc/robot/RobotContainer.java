@@ -74,7 +74,8 @@ public class RobotContainer {
                 m_driverController.getRawAxis(4)), // kRX
             m_driveSubsystem));
 
-    m_chooser.setDefaultOption("drive and intake", m_drive_intake_sequential);
+    m_chooser.setDefaultOption("Drive and intake", m_drive_intake_sequential);
+    m_chooser.setDefaultOption("pathplanner", m_pathPlannerCommand.getAutonomousCommand());
     m_chooser.addOption("auto intake", m_AutoIntake);
   }
 
@@ -113,14 +114,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-
-    PathPlannerPath path = PathPlannerPath.fromPathFile("NewPath");
-
-    // Create a path following command using AutoBuilder. This will also trigger
-    // event markers.
-    return AutoBuilder.followPathWithEvents(path);
-
     // An example command will be run in autonomous
-    //return m_chooser.getSelected();
+    return m_chooser.getSelected();
   }
 }
