@@ -13,6 +13,7 @@ import frc.robot.commands.DriveAndIntakeSequential;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.Shoot;
 import frc.robot.commands.Suck;
+import frc.robot.commands.driveShape;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -37,6 +38,8 @@ public class RobotContainer {
   private static final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
   
   private static final DriveAndIntakeSequential m_drive_intake_sequential = new DriveAndIntakeSequential(m_intakeSubsystem, m_driveSubsystem);
+
+  private static final driveShape m_driveShape = new driveShape(m_driveSubsystem);
 
   private final AutoIntake m_AutoIntake = new AutoIntake(m_intakeSubsystem);
   SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -81,6 +84,7 @@ public class RobotContainer {
     new JoystickButton(m_driverController, IOConstants.kLB).whileTrue(new Shoot(m_intakeSubsystem));
     new JoystickButton(m_driverController, IOConstants.kRB).whileTrue(new Suck(m_intakeSubsystem));
     new JoystickButton(m_driverController, IOConstants.kA).onTrue(new DriveAndIntakeParallel(m_intakeSubsystem, m_driveSubsystem));
+    new JoystickButton(m_driverController, IOConstants.kB).onTrue(new driveShape(m_driveSubsystem));
   }
 
   /**

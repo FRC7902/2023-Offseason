@@ -32,7 +32,7 @@ public final class Constants {
   }
 
   public static class IOConstants{
-    public static final int kLB = 5, kRB = 6, kA = 1;
+    public static final int kLB = 5, kRB = 6, kA = 1, kB = 2;
   }
   
 }
