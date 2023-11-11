@@ -29,4 +29,7 @@ public final class Constants {
         public static final int kLB = 5, kRB = 6, kA =1; 
     }
   
+    public static class CommandConstants{
+        public static final double driveForwardTimeout = 1.0;
+    }
 }

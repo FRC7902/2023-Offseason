@@ -6,6 +6,9 @@ package frc.robot;
 
 import frc.robot.Constants.IOConstants;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.AutoIntake;
+import frc.robot.commands.DriveAndIntakeParallel;
+import frc.robot.commands.DriveAndIntakeSquential;
 import frc.robot.commands.Shoot;
 import frc.robot.commands.Suck;
 import frc.robot.subsystems.DriveSubsystem;
@@ -29,6 +32,8 @@ public class RobotContainer {
   private static final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
 
 
+  private final AutoIntake m_autoIntake = new AutoIntake(m_intakeSubsystem, m_driveSubsystem);
+  private final DriveAndIntakeSquential m_driveAndIntakeSquential = new DriveAndIntakeSquential(m_intakeSubsystem, m_driveSubsystem);
   SendableChooser<Command> m_chooser = new SendableChooser<>();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
@@ -41,7 +46,14 @@ public class RobotContainer {
     configureBindings();
     new JoystickButton(m_driverController, IOConstants.kLB).whileTrue(new Shoot(m_intakeSubsystem));
     new JoystickButton(m_driverController, IOConstants.kRB).whileTrue(new Suck(m_intakeSubsystem));
+    new JoystickButton(m_driverController, IOConstants.kA).onTrue(new DriveAndIntakeParallel(m_intakeSubsystem, m_driveSubsystem));
+
+    m_chooser.setDefaultOption("drive and intake", m_autoIntake);
+    m_chooser.addOption("drive and intake squential", m_driveAndIntakeSquential);
+   
   }
+
+ 
 
   /**
    * Use this method to define your trigger->command mappings. Triggers can be created via the
