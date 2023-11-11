@@ -24,10 +24,16 @@
         "Robot": {
           "arrowSize": 39
         },
+        "image": "C:\\Users\\patri_000\\Downloads\\2020-Field.png",
         "window": {
           "visible": true
         }
       }
+    }
+  },
+  "NetworkTables": {
+    "Retained Values": {
+      "open": false
     }
   },
   "NetworkTables Info": {
