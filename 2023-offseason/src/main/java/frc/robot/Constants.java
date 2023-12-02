@@ -12,20 +12,27 @@ package frc.robot;
  * <p>It is advised to statically import this class (or one of its inner classes) wherever the
  * constants are needed, to reduce verbosity.
  */
-
 public final class Constants {
 
-public static class IntakeConstants{
-  public static final int IntakeCANid = 8;
-  public static final double hold = 0.05;
-  public static final double shootSpeed = 0.5;
-  public static final double suckSpeed = -0.5;
-}
+  public static class IntakeConstants{
+    public static final int IntakeCANid = 8;
+    public static final double hold = 0.05;
+    public static final double shootSpeed = 0.5;
+    public static final double suckSpeed = -0.5;
+
+  }
+
+  public static class DriveConstants{
+    public static final int[] kLeftEncoderPorts = {0,1};
+    public static final int[] kRightEncoderPorts = {2,3};
+  }
+
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
   }
 
   public static class IOConstants{
-    public static final int kLB = 5, kRB = 6, kA = 1;
+    public static final int kLB = 5, kRB = 6, kA = 1, kB = 2, kX = 3, kY = 4;
   }
+  
 }

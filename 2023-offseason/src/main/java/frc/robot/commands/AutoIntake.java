@@ -17,10 +17,8 @@ public class AutoIntake extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new Suck(intake).withTimeout(1),
-      new Stop(intake).withTimeout(1),
+      new stopIntake(intake).withTimeout(1),
       new Shoot(intake).withTimeout(1)
-
-      
-    );
+      );
   }
 }

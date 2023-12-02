@@ -7,11 +7,11 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.IntakeSubsystem;
 
-public class Stop extends CommandBase {
+public class stop extends CommandBase {
   private final IntakeSubsystem m_intake;
 
   /** Creates a new Stop. */
-  public Stop(IntakeSubsystem intake) {
+  public stop(IntakeSubsystem intake) {
     m_intake = intake;
     // Use addRequirements() here to declare subsystem dependencies.
   }

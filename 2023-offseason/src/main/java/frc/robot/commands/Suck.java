@@ -6,15 +6,15 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.IntakeConstants;
-import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 
 public class Suck extends CommandBase {
 
   private final IntakeSubsystem m_intake;
+
   /** Creates a new Suck. */
-  public Suck(IntakeSubsystem m_intakeSubsystem) {
-    m_intake = m_intakeSubsystem;
+  public Suck(IntakeSubsystem intake) {
+    m_intake = intake;
     // Use addRequirements() here to declare subsystem dependencies.
   }
 

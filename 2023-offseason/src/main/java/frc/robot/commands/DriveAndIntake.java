@@ -18,7 +18,7 @@ public class DriveAndIntake extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new Suck(intake).withTimeout(1),
-      new Stop(intake).withTimeout(1),
+      new stop(intake).withTimeout(1),
       new Shoot(intake).withTimeout(1)
     );
   }
