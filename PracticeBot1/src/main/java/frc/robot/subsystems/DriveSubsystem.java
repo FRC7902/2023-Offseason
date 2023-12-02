@@ -120,25 +120,6 @@ public class DriveSubsystem extends SubsystemBase {
     return false;
   }
 
-  public void driveArcade(double xForward, double zRotation){
-    drive.arcadeDrive(xForward, zRotation);
-  }
-
-  public void driveRaw(double power){
-    left.set(power);
-    right.set(power);
-  }
-
-  public void turnLeft(double amount){
-    left.set(-amount);
-    right.set(amount);
-  }
-
-  public void turnRight(double amount){
-    left.set(amount);
-    right.set(-amount);
-  }
-
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
@@ -208,4 +189,31 @@ public class DriveSubsystem extends SubsystemBase {
     m_setpoint = setpoint;
   }
 
+  public void driveArcade(double xForward, double zRotation){
+    drive.arcadeDrive(xForward, zRotation);
+  }
+
+  public void driveRaw(double power){
+    left.set(power);
+    right.set(power);
+  }
+
+  public void turnLeft(double amount){
+    left.set(-amount);
+    right.set(amount);
+  }
+
+  public void turnRight(double amount){
+    left.set(amount);
+    right.set(-amount);
+  }
+
+  public void turn(double amount){
+    left.set(amount);
+    right.set(-amount);
+  }
+
+  public double getPosition(){
+    return m_rightEncoder.getDistance();
+  }
 }
