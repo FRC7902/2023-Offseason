@@ -4,12 +4,25 @@
 
 package frc.robot;
 
+import frc.robot.Constants.DriveConstants;
+import frc.robot.Constants.IOConstants;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.AutoIntake;
 import frc.robot.commands.Autos;
+import frc.robot.commands.DriveAndIntakeParallel;
+import frc.robot.commands.DriveAndIntakeSequential;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.Shoot;
+import frc.robot.commands.Suck;
+import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
@@ -21,16 +34,39 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+  private static final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
+  private static final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
+  private static final DriveAndIntakeSequential m_drive_intake_sequential = new DriveAndIntakeSequential(m_intakeSubsystem, m_driveSubsystem);
 
-  // Replace with CommandPS4Controller or CommandJoystick if needed
-  private final CommandXboxController m_driverController =
-      new CommandXboxController(OperatorConstants.kDriverControllerPort);
+  private final AutoIntake m_AutoIntake = new AutoIntake(m_intakeSubsystem);
+  SendableChooser<Command> m_chooser = new SendableChooser<>();
+  
+  private final XboxController m_driverController = new XboxController(OperatorConstants.kDriverControllerPort);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
     configureBindings();
+  
+    
+    m_driveSubsystem.setDefaultCommand(
+        new RunCommand(
+            () -> m_driveSubsystem.driveArcade(
+              m_driverController.getRawAxis(1),//kLY
+              m_driverController.getRawAxis(0)),//kRX
+              m_driveSubsystem
+            ));      
+
+    m_chooser.setDefaultOption("drive and intake", m_drive_intake_sequential);
+    m_chooser.addOption("auto drive 1", m_AutoIntake);
   }
+  
+  
+  
+  
+  
+  
+  
 
   /**
    * Use this method to define your trigger->command mappings. Triggers can be created via the
@@ -48,7 +84,11 @@ public class RobotContainer {
 
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
-    m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
+
+    new JoystickButton(m_driverController, IOConstants.kLB).whileTrue(new Shoot(m_intakeSubsystem)); //hold
+    new JoystickButton(m_driverController, IOConstants.kRB).whileTrue(new Suck(m_intakeSubsystem));
+    new JoystickButton(m_driverController, 1).onTrue(new DriveAndIntakeParallel(m_intakeSubsystem, m_driveSubsystem)); //toggle
+
   }
 
   /**

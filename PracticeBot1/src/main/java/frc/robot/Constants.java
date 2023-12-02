@@ -13,7 +13,24 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+  public static class IntakeConstants{
+    public static final int IntakeCANID = 8;
+    public static final double holdNumber = 0.1;
+    public static final double shootSpeed = 0.5;
+    public static final double suckSpeed = -0.5;
+
+  }
+
+
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
+  }
+
+  public static class DriveConstants{
+    
+  }
+
+  public static class IOConstants{
+    public static final int kLB = 5, kRB = 6;
   }
 }
