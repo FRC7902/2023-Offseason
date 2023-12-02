@@ -8,12 +8,12 @@ import frc.robot.Constants.IOConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.AutoIntake;
 import frc.robot.commands.Autos;
-import frc.robot.commands.DriveAndIntakeParallel;
 import frc.robot.commands.DriveAndIntakeSequential;
+import frc.robot.commands.DriveToDistance;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.Shoot;
 import frc.robot.commands.Suck;
-import frc.robot.commands.driveSetpoint;
+import frc.robot.commands.TurnToAngle;
 import frc.robot.commands.driveShape;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
@@ -86,10 +86,8 @@ public class RobotContainer {
     new JoystickButton(m_driverController, IOConstants.kRB).whileTrue(new Suck(m_intakeSubsystem));
     // new JoystickButton(m_driverController, IOConstants.kA).onTrue(new DriveAndIntakeParallel(m_intakeSubsystem, m_driveSubsystem));
     // new JoystickButton(m_driverController, IOConstants.kB).onTrue(new driveShape(m_driveSubsystem));
-    new JoystickButton(m_driverController, IOConstants.kA).onTrue(new driveSetpoint(m_driveSubsystem, 0));
-    new JoystickButton(m_driverController, IOConstants.kB).onTrue(new driveSetpoint(m_driveSubsystem, 5));
-    new JoystickButton(m_driverController, IOConstants.kX).onTrue(new driveSetpoint(m_driveSubsystem, 10));
-    new JoystickButton(m_driverController, IOConstants.kY).onTrue(new driveSetpoint(m_driveSubsystem, 15));
+    new JoystickButton(m_driverController, IOConstants.kA).onTrue(new DriveToDistance(m_driveSubsystem, 5));
+    new JoystickButton(m_driverController, IOConstants.kB).onTrue(new TurnToAngle(m_driveSubsystem, 90));
 
   }
 

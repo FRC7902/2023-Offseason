@@ -14,7 +14,6 @@ import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.RobotController;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.simulation.AnalogGyroSim;
@@ -51,17 +50,6 @@ public class DriveSubsystem extends SubsystemBase {
   private AnalogGyroSim m_gyroSim;
   public DifferentialDrivetrainSim m_driveTrainSim;
   private Field2d m_fieldSim;
-
-  //PID stuff
-  final double kP = 0.5;
-  final double kI = 0.5;
-  final double kD = 0.1;
-  final double iLimit = 1;
-
-  double m_setpoint = 0;
-  double m_errorSum = 0;
-  double m_lastTimestamp = 0;
-  double m_lastError = 0;
 
   /** Creates a new ExampleSubsystem. */
   public DriveSubsystem() {
@@ -136,27 +124,6 @@ public class DriveSubsystem extends SubsystemBase {
   @Override
   public void simulationPeriodic() {
 
-    double position = m_rightEncoder.getDistance();
-    double error = m_setpoint - position;
-    double dt = Timer.getFPGATimestamp() - m_lastTimestamp;
-
-    if(Math.abs(error) < iLimit){
-      m_errorSum += error * dt;
-    }
-
-    double errorRate = (error - m_lastError) / dt;
-
-    double outputSpeed = (kP * error) + (kI * m_errorSum) + (kD * errorRate);
-
-    left.set(outputSpeed);
-    right.set(outputSpeed);
-
-    m_lastTimestamp = Timer.getFPGATimestamp();
-    m_lastError = error;
-
-    SmartDashboard.putNumber("position", position);
-    SmartDashboard.putNumber("setpoint", m_setpoint);
-
     // This method will be called once per scheduler run during simulation
     //connect the motors to update the drivetrain
     
@@ -175,6 +142,8 @@ public class DriveSubsystem extends SubsystemBase {
 
     m_gyroSim.setAngle(-m_driveTrainSim.getHeading().getDegrees());
 
+    SmartDashboard.putNumber("angle", getHeading());
+
   }
 
   public double getHeading(){
@@ -183,10 +152,6 @@ public class DriveSubsystem extends SubsystemBase {
 
   public Pose2d getPose(){
     return m_odometry.getPoseMeters();
-  }
-
-  public void setSetpoint(double setpoint){
-    m_setpoint = setpoint;
   }
 
   public void driveArcade(double xForward, double zRotation){

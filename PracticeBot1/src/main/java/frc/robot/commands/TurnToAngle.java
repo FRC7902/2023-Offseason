@@ -5,7 +5,6 @@
 package frc.robot.commands;
 
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 import frc.robot.subsystems.DriveSubsystem;
 
@@ -14,33 +13,29 @@ import frc.robot.subsystems.DriveSubsystem;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class TurnToAngle extends PIDCommand {
   /** Creates a new TurnToAngle. */
-  public TurnToAngle(DriveSubsystem driveSubsystem, double angle) {
-    
+  public TurnToAngle(DriveSubsystem driveSubsystem, double targetAngle) {
+
+// ku = 0.17
+// tu = 0.1
+
+// kp = 0.6 * ku
+// ki = (1.2 * ku) / tu
+// kd = ku * tu * 0.075
+
     super(
         // The controller that the command will use
-
-    //ku = 0.17
-    //tu = 0.1
-
-    //kp = 0.6 * ku
-    //ki = (1.2 * ku) / tu
-    //kd = ku * tu * 0.075
-
-        new PIDController(0.102, 2.04, 0.001275),
+        new PIDController(0.10, 0, 0),
         // This should return the measurement
         driveSubsystem::getHeading,
         // This should return the setpoint (can also be a constant)
-        angle,
+        targetAngle,
         // This uses the output
         output -> {
+          // Use the output here
           driveSubsystem.turn(output);
         });
 
-    getController().setTolerance(0.1, 1);
-
-    SmartDashboard.putNumber("angle 2", driveSubsystem.getHeading());
-
-    getController().enableContinuousInput(0, 360);
+        getController().setTolerance(0.01, 1);
     // Use addRequirements() here to declare subsystem dependencies.
     // Configure additional PID options by calling `getController` here.
   }
