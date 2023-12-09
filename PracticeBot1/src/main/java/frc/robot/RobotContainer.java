@@ -14,6 +14,7 @@ import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.Shoot;
 import frc.robot.commands.Suck;
 import frc.robot.commands.TurnToAngle;
+import frc.robot.commands.TurnToAngleCase2;
 import frc.robot.commands.driveShape;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
@@ -88,7 +89,8 @@ public class RobotContainer {
     // new JoystickButton(m_driverController, IOConstants.kB).onTrue(new driveShape(m_driveSubsystem));
     new JoystickButton(m_driverController, IOConstants.kA).onTrue(new DriveToDistance(m_driveSubsystem, 5));
     new JoystickButton(m_driverController, IOConstants.kB).onTrue(new TurnToAngle(m_driveSubsystem, 90));
-    new JoystickButton(m_driverController, IOConstants.kX).onTrue(new TurnToAngle(m_driveSubsystem, 180));
+    new JoystickButton(m_driverController, IOConstants.kX).onTrue(new driveShape(m_driveSubsystem));
+
 
   }
 

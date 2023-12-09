@@ -17,14 +17,14 @@ public class driveShape extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new driveForward(drive).withTimeout(1),
-      new turnRight(drive).withTimeout(0.5),
-      new driveForward(drive).withTimeout(1),
-      new turnRight(drive).withTimeout(0.5),      
-      new driveForward(drive).withTimeout(1),
-      new turnRight(drive).withTimeout(0.5),      
-      new driveForward(drive).withTimeout(1),
-      new turnRight(drive).withTimeout(0.5)
+      new TurnToAngle(drive, 0),
+      new DriveToDistance(drive, 5),
+      new TurnToAngle(drive, 90),
+      new DriveToDistance(drive, 5),
+      new TurnToAngleCase2(drive, 180),
+      new DriveToDistance(drive, 5),      
+      new TurnToAngleCase2(drive, 270),
+      new DriveToDistance(drive, 5)
     );
   }
 }

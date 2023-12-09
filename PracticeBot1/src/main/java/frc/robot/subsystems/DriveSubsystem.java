@@ -147,8 +147,16 @@ public class DriveSubsystem extends SubsystemBase {
 
   }
 
-  public double getHeading(){
-    return Math.IEEEremainder(m_gyro.getAngle(), 720);
+  public double getHeading(){//-180 to 180
+    return Math.IEEEremainder(m_gyro.getAngle(), 360);
+  }
+
+  public double getHeadingCase2(){//0 to 360
+    if(Math.IEEEremainder(m_gyro.getAngle(), 360) < 0){
+      return Math.IEEEremainder(m_gyro.getAngle(), 360) + 360;
+    }
+    return Math.IEEEremainder(m_gyro.getAngle(), 360);
+
   }
 
   public Pose2d getPose(){
