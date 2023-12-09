@@ -33,6 +33,14 @@
   "NetworkTables": {
     "Retained Values": {
       "open": false
+    },
+    "transitory": {
+      "SmartDashboard": {
+        "Field": {
+          "open": true
+        },
+        "open": true
+      }
     }
   },
   "NetworkTables Info": {
@@ -113,6 +121,24 @@
       "window": {
         "visible": false
       }
+    },
+    "Plot <3>": {
+      "plots": [
+        {
+          "height": 353,
+          "series": [
+            {
+              "color": [
+                0.2980392277240753,
+                0.44705885648727417,
+                0.6901960968971252,
+                1.0
+              ],
+              "id": "NT:/SmartDashboard/DisplacementX"
+            }
+          ]
+        }
+      ]
     }
   }
 }

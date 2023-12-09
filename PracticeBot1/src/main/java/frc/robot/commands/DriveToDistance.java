@@ -5,33 +5,53 @@
 package frc.robot.commands;
 
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.wpilibj2.command.PIDCommand;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveSubsystem;
 
-// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
-// information, see:
-// https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class DriveToDistance extends PIDCommand {
+public class DriveToDistance extends CommandBase {
 
+  private final DriveSubsystem m_DriveSubsystem;
+  private final double targetDistance;
+
+//ku = 19.5
+//tu = 0.22
+
+  private final PIDController drivePID = new PIDController(11.5, 106.36, 0.32175);
+  private double initialPositionX;
+  private double angle;
   /** Creates a new DriveToDistance. */
-  public DriveToDistance(DriveSubsystem driveSubsystem, double distance) {
-    super(
-        new PIDController(0.5, 0.5, 0.1),
-        // This should return the measurement
-        driveSubsystem::getPosition,
-        // This should return the setpoint (can also be a constant)
-        distance,
-        // This uses the output
-        output -> driveSubsystem.driveRaw(output),
-        driveSubsystem
-        );
+  public DriveToDistance(DriveSubsystem drive, double distance) {
+    m_DriveSubsystem = drive;
+    targetDistance = distance;
+    m_DriveSubsystem.resetEncoders();
+    drivePID.setTolerance(0.1, 0.1);
+    addRequirements(drive);
+    initialPositionX = m_DriveSubsystem.getDisplacementX();
+    angle = m_DriveSubsystem.getHeading();
     // Use addRequirements() here to declare subsystem dependencies.
-    // Configure additional PID options by calling `getController` here.
   }
+
+  // Called when the command is initially scheduled.
+  @Override
+  public void initialize() {
+    initialPositionX = m_DriveSubsystem.getDisplacementX();
+    angle = m_DriveSubsystem.getHeading();
+  }
+
+  // Called every time the scheduler runs while the command is scheduled.
+  @Override
+  public void execute() {
+    double speed = drivePID.calculate(m_DriveSubsystem.getDisplacementX(), initialPositionX + targetDistance * Math.cos(angle));
+    m_DriveSubsystem.driveRaw(speed);
+  }
+
+  // Called once the command ends or is interrupted.
+  @Override
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return getController().atSetpoint();
+    return drivePID.atSetpoint();
   }
 }

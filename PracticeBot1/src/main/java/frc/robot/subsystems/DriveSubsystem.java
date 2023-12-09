@@ -63,7 +63,7 @@ public class DriveSubsystem extends SubsystemBase {
       m_gyro.getRotation2d(), 
       m_leftEncoder.getDistance(), 
       m_rightEncoder.getDistance(), 
-      new Pose2d(5.0, 5.0, new Rotation2d())
+      new Pose2d(0, 0, new Rotation2d())
       );
 
       m_driveTrainSim = DifferentialDrivetrainSim.createKitbotSim(
@@ -143,11 +143,12 @@ public class DriveSubsystem extends SubsystemBase {
     m_gyroSim.setAngle(-m_driveTrainSim.getHeading().getDegrees());
 
     SmartDashboard.putNumber("angle", getHeading());
+    SmartDashboard.putNumber("DisplacementX", getDisplacementX());
 
   }
 
   public double getHeading(){
-    return Math.IEEEremainder(m_gyro.getAngle(), 360);
+    return Math.IEEEremainder(m_gyro.getAngle(), 720);
   }
 
   public Pose2d getPose(){
@@ -181,4 +182,22 @@ public class DriveSubsystem extends SubsystemBase {
   public double getPosition(){
     return m_rightEncoder.getDistance();
   }
+
+  public void resetEncoders(){
+    m_leftEncoder.reset();
+    m_rightEncoder.reset();
+  }
+
+  public double getDisplacementX(){
+    return m_odometry.getPoseMeters().getX();
+  }
+
+  public double getDisplacementY(){
+    return m_odometry.getPoseMeters().getY();
+  }
+
+  public double getAvgEncoderDistance(){
+    return (m_rightEncoder.getDistance() + m_leftEncoder.getDistance()) * 0.5;
+  }
+
 }
