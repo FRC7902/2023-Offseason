@@ -143,6 +143,7 @@ public class DriveSubsystem extends SubsystemBase {
     m_gyroSim.setAngle(-m_driveTrainSim.getHeading().getDegrees());
 
     SmartDashboard.putNumber("angle", getHeading());
+    SmartDashboard.putNumber("angle2", getHeadingCase2());
     SmartDashboard.putNumber("DisplacementX", getDisplacementX());
 
   }
@@ -172,15 +173,6 @@ public class DriveSubsystem extends SubsystemBase {
     right.set(power);
   }
 
-  public void turnLeft(double amount){
-    left.set(-amount);
-    right.set(amount);
-  }
-
-  public void turnRight(double amount){
-    left.set(amount);
-    right.set(-amount);
-  }
 
   public void turn(double amount){
     left.set(amount);
