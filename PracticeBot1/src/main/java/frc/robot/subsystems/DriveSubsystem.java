@@ -154,9 +154,9 @@ public class DriveSubsystem extends SubsystemBase {
   public double getHeadingCase2(){//0 to 360
     if(Math.IEEEremainder(m_gyro.getAngle(), 360) < 0){
       return Math.IEEEremainder(m_gyro.getAngle(), 360) + 360;
+    }else{
+      return Math.IEEEremainder(m_gyro.getAngle(), 360);
     }
-    return Math.IEEEremainder(m_gyro.getAngle(), 360);
-
   }
 
   public Pose2d getPose(){
@@ -192,8 +192,8 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public void resetEncoders(){
-    m_leftEncoder.reset();
     m_rightEncoder.reset();
+    m_leftEncoder.reset();
   }
 
   public double getDisplacementX(){

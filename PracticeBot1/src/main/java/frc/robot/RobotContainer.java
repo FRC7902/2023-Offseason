@@ -88,7 +88,8 @@ public class RobotContainer {
     // new JoystickButton(m_driverController, IOConstants.kA).onTrue(new DriveAndIntakeParallel(m_intakeSubsystem, m_driveSubsystem));
     // new JoystickButton(m_driverController, IOConstants.kB).onTrue(new driveShape(m_driveSubsystem));
     new JoystickButton(m_driverController, IOConstants.kA).onTrue(new DriveToDistance(m_driveSubsystem, 5));
-    new JoystickButton(m_driverController, IOConstants.kB).onTrue(new TurnToAngle(m_driveSubsystem, 90));
+    new JoystickButton(m_driverController, IOConstants.kB).onTrue(new TurnToAngleCase2(m_driveSubsystem, 180));
+    new JoystickButton(m_driverController, IOConstants.kY).onTrue(new TurnToAngle(m_driveSubsystem, 90));
     new JoystickButton(m_driverController, IOConstants.kX).onTrue(new driveShape(m_driveSubsystem));
 
 

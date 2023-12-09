@@ -5,44 +5,41 @@
 package frc.robot.commands;
 
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveSubsystem;
 
 public class DriveToDistance extends CommandBase {
 
-  private final DriveSubsystem m_DriveSubsystem;
+  private final DriveSubsystem m_driveSubsystem;
   private final double targetDistance;
 
-//ku = 10.7
-//tu = 0.33
-
-// kp = 0.6 * ku
-// ki = (1.2 * ku) / tu
-// kd = ku * tu * 0.075
-  private final PIDController drivePID = new PIDController(6.42, 38.91, 0.264825);
+  private final PIDController drivePID = new PIDController(1, 0, 0);
   private double initialPositionX;
   private double initialPositionY;
   private double angle;
+
   /** Creates a new DriveToDistance. */
   public DriveToDistance(DriveSubsystem drive, double distance) {
-    m_DriveSubsystem = drive;
+    m_driveSubsystem = drive;
     targetDistance = distance;
-    m_DriveSubsystem.resetEncoders();
+    m_driveSubsystem.resetEncoders();
     drivePID.setTolerance(0.01, 1);
-    addRequirements(drive);
-    initialPositionX = m_DriveSubsystem.getDisplacementX();
-    initialPositionY = m_DriveSubsystem.getDisplacementY();
-    angle = m_DriveSubsystem.getHeadingCase2();
+    //addRequirements(drive);
+    
+    initialPositionX = m_driveSubsystem.getDisplacementX();
+    initialPositionY = m_driveSubsystem.getDisplacementY();
+    angle = m_driveSubsystem.getHeading();
+
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    initialPositionX = m_DriveSubsystem.getDisplacementX();
-    initialPositionY = m_DriveSubsystem.getDisplacementY();
-    angle = m_DriveSubsystem.getHeadingCase2();
+
+    initialPositionX = m_driveSubsystem.getDisplacementX();
+    initialPositionY = m_driveSubsystem.getDisplacementY();
+    angle = m_driveSubsystem.getHeading();
 
   }
 
@@ -51,26 +48,36 @@ public class DriveToDistance extends CommandBase {
   public void execute() {
     double speed;
 
-    if((45 <  angle && angle < 135) || (225 <  angle && angle < 315)){
-      speed = drivePID.calculate(m_DriveSubsystem.getDisplacementY(), initialPositionY + (targetDistance * Math.sin(Math.toRadians(angle))));
-      if(Math.sin(Math.toRadians(angle)) < 0){
-        m_DriveSubsystem.driveRaw(-speed);
-      }else{
-        m_DriveSubsystem.driveRaw(speed);
-      }
-    }else{
-      speed = drivePID.calculate(m_DriveSubsystem.getDisplacementX(), initialPositionX + (targetDistance * Math.cos(Math.toRadians(angle))));
-      if(Math.cos(Math.toRadians(angle)) < 0){
-        m_DriveSubsystem.driveRaw(-speed);
-      }else{
-        m_DriveSubsystem.driveRaw(speed);
-      }
-    }
-    
+    if((45 < angle && angle < 135) || (225 < angle && angle < 315)){
+      speed = drivePID.calculate(m_driveSubsystem.getDisplacementY(), initialPositionY + (targetDistance * sin(angle)));
 
-    SmartDashboard.putNumber("target", initialPositionX + (targetDistance * Math.cos(Math.toRadians(angle))));
+      if(sin(angle) < 0){
+        m_driveSubsystem.driveRaw(-speed);
+      }else{
+        m_driveSubsystem.driveRaw(speed);
+      }
+
+    }else{
+      speed = drivePID.calculate(m_driveSubsystem.getDisplacementX(), initialPositionX + (targetDistance * cos(angle)));
+
+      if(cos(angle) < 0){
+        m_driveSubsystem.driveRaw(-speed);
+      }else{
+        m_driveSubsystem.driveRaw(speed);
+      }
+
+    }
 
   }
+
+  public double cos(double angle){
+    return Math.cos(Math.toRadians(angle));
+  }
+
+  public double sin(double angle){
+    return Math.sin(Math.toRadians(angle));
+  }
+
 
   // Called once the command ends or is interrupted.
   @Override

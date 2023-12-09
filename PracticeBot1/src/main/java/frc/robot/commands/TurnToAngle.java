@@ -13,6 +13,9 @@ import frc.robot.subsystems.DriveSubsystem;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class TurnToAngle extends PIDCommand {
   /** Creates a new TurnToAngle. */
+
+  DriveSubsystem m_driveSubsystem;
+
   public TurnToAngle(DriveSubsystem driveSubsystem, double targetAngle) {
 
 // ku = 0.17
@@ -39,6 +42,16 @@ public class TurnToAngle extends PIDCommand {
     // Use addRequirements() here to declare subsystem dependencies.
     // Configure additional PID options by calling `getController` here.
   }
+
+  // public double getCorrectHeading(double targetAngle){
+
+  //   if(targetAngle > 170 || targetAngle < -170){
+  //     return 
+  //   }
+
+
+  // }
+
 
   // Returns true when the command should end.
   @Override
